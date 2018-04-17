@@ -1,0 +1,19 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<!-- Views -->
+<link rel='import' href='nav-bar.html'>
+
+<dom-module id='ark-app'>
+    <template>
+        <style>
+        
+        </style>
+        <nav-bar></nav-bar>
+    </template>
+    <script>
+        class ArkApp extends Polymer.Element {
+            static get is() { return 'ark-app' }
+           
+        }
+        window.customElements.define(ArkApp.is, ArkApp);
+    </script>
+</dom-module>

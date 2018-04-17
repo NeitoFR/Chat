@@ -1,0 +1,27 @@
+<link rel='import' href='../bower_components/polymer/polymer-element.html'>
+
+<dom-module id='nav-bar'>
+    <template>
+        <style include='shared-styles'>
+        </style>
+        <!-- Navbar -->
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Page 2</li>
+        </ul>
+    </template>
+    <script>
+        class NavBar extends Polymer.Element {
+            static get is() {
+                return 'nav-bar'
+            }
+            static get properties() {
+                 return {
+
+                }
+            }
+        }
+        window.customElements.define(NavBar.is, NavBar);
+    </script>
+</dom-module>

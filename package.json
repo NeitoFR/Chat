@@ -1,0 +1,22 @@
+{
+  "name": "ark",
+  "version": "1.0.0",
+  "description": "Projet Fil Rouge - Les n Fantastiques",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NeitoFR/Ark.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "path": "^0.12.7",
+    "request": "^2.85.0"
+  }
+}
