@@ -48,28 +48,10 @@ exports.getUserInfo = function (id, callback){
         }
     });
 }
-
-exports.getAlertById = function (id, callback){
+exports.getPillInfo = function (id, callback){
     var c = init();
     
-    var query = 'SELECT * FROM Missions WHERE id_Mission=\''+id+'\';';
-    //console.log(query);
-    c.query(query, function(err, res)
-    {
-        if (err){
-            c.end();
-            callback(err, null);
-        }
-        else{
-            c.end();
-            callback(null, res);
-        }
-    });
-}
-exports.getAnimals = function (callback){
-    var c = init(process.env.B_TAXO);
-    
-    var query = 'SELECT espece FROM Espece;';
+    var query = 'SELECT * FROM pilluliers WHERE id_pillulier=\''+id+'\';';
     //console.log(query);
     c.query(query, function(err, res)
     {

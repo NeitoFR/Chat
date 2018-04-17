@@ -22,46 +22,61 @@
             }
             .gray
             {
-                box-shadow: inset 0px 0px 45px 2px #4e4e4e;                
+                box-shadow: inset 0px 0px 45px 2px #4e4e4e;
+            }
+            .space
+            {
+                height: 30px;
             }
         </style>
-            <div style="margin-bottom: 5px">Pilulier de : Bernard</div>
+        <div style="margin-bottom: 5px">Pilulier de : {{selectedUser.prenom}}</div>
+
         <div class="flex flex--row">
             <div class="flex__item--top flex flex--col">
-                <div class="flex__item--middle flex_item ">L</div>
-                <div class="flex__item--top day red"></div>
+                <div class="flex__item--middle flex_item">L</div>
+                <div class="flex__item--top day red" data-caseid="1" on-click='_test'></div>
             </div>
             <div class="flex__item--top flex flex--col">
                 <div class="flex__item--middle ">M</div>
-                <div class="flex__item--top day gray"></div>
+                <div class="flex__item--top day gray" data-caseid="2" on-click='_test'></div>
             </div>
             <div class="flex__item--top flex flex--col">
                 <div class="flex__item--middle ">M</div>
-                <div class="flex__item--top day green"></div>
+                <div class="flex__item--top day green" data-caseid="3" on-click='_test'></div>
             </div>
             <div class="flex__item--top flex flex--col">
                 <div class="flex__item--middle ">J</div>
-                <div class="flex__item--top day gray"></div>
+                <div class="flex__item--top day gray" data-caseid="4" on-click='_test'></div>
             </div>
             <div class="flex__item--top flex flex--col">
                 <div class="flex__item--middle ">V</div>
-                <div class="flex__item--top day gray"></div>
+                <div class="flex__item--top day gray" data-caseid="5" on-click='_test'></div>
             </div>
             <div class="flex__item--top flex flex--col">
                 <div class="flex__item--middle ">S</div>
-                <div class="flex__item--top day gray"></div>
+                <div class="flex__item--top day gray" data-caseid="6" on-click='_test'></div>
             </div>
             <div class="flex__item--top flex flex--col">
                 <div class="flex__item--middle ">D</div>
-                <div class="flex__item--top day gray"></div>
+                <div class="flex__item--top day gray" data-caseid="7" on-click='_test'></div>
+            </div>
+
+        </div>
+        <div class="space"></div>
+        <div class="flex flex--col">
+            <div class="flex flex--row flex__item">
+                <div class="flex__item info infokey">Case : </div>
+                <div class="flex__item info infoval">{{idcase}}</div>
+            </div>
+            <div class="flex flex--row flex__item">
+                <div class="flex__item info infokey">Médicament :</div>
+                <div class="flex__item info infoval">{{ctcase}}</div>
             </div>
         </div>
-        
-        
         <iron-ajax id="ajaxEl" content-type="application/json" on-response="handleResponse"></iron-ajax>
-        
+
     </template>
-    
+
     <script>
         class PilView extends Polymer.Element {
             static get is() {
@@ -69,20 +84,64 @@
             }
             static get properties() {
                 return {
-                    
+                    selectedUser:{
+                        type: Object,
+                        observer: '_selectedUserChanged'
+                    },
+                    pillContent: Object,
+                    caseId:{
+                        observer: '_caseIdChanged'
+                    },
+                    selectedCase:{
+                        type: Object
+                    }
                 };
             }
             ready() {
                 super.ready();
             }
-            _getData()
+            _test(data)
             {
-                this.$.ajaxEl.url = "";
-                this.$.ajaxEl.method = "";
-                this.$.ajaxEl.generateRequest();s
+                console.log('data', data.path[0].dataset.caseid);
+                this.set('caseId', data.path[0].dataset.caseid)
+            }
+            _caseIdChanged(val)
+            {
+                this.idcase = this.pillContent.idcase[val-1];
+                this.ctcase = this.pillContent.ctcase[val-1];
+            }
+            _getPillData(id)
+            {
+                this.$.ajaxEl.url = "/pillInfo/"+id;
+                this.$.ajaxEl.method = "GET";
+                this.$.ajaxEl.generateRequest();
             }
             handleResponse(evt){
-                console.log(evt.detail.response);
+                //console.log(evt.detail.response);
+                var obj = {}, pills = evt.detail.response[0];
+                var ids = [], cts = [], keys = Object.keys(pills);
+                obj.id_pillulier = pills.id_pillulier;
+                console.log("keys",keys);
+                keys.forEach(key => {
+                    if(key.includes('case_'))
+                    {
+                        ids.push(key);
+                    }
+                    if(key.includes('contenu_'))
+                    {
+                        cts.push(pills[key]);
+                    }
+                });
+                obj.idcase = ids;
+                obj.ctcase = cts;
+                //console.log(obj);
+
+                this.set('pillContent', obj);
+                this.set('caseId', 1);
+            }
+            _selectedUserChanged(user){
+                //console.log('Selected User changed from pil-view');
+                this._getPillData(user.id_pillulier);
             }
         }
         window.customElements.define(PilView.is, PilView);

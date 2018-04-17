@@ -48,20 +48,14 @@
                 </div>
                 <div class="flex__item">
                     <div class="card">
-                        <info-user></info-user>
+                        <info-user selected-user={{selectedUser}}></info-user>
                     </div>
                 </div>
             </div>
-            <div class="flex flex--row flex__item">
-                <div class="flex__item">
-                    <div class="card">
-                        Info case
-                    </div>
-                </div>
-                <div class="flex__item"></div>
-            </div>
+            
         </div>
         <iron-ajax id='ajaxEl' content-type='application/json' on-response='handleResponse'></iron-ajax>
+        <iron-ajax id='ajaxInit' content-type='application/json' on-response='initUserList'></iron-ajax>
     </template>
     <script>
         class PilApp extends Polymer.Element {
@@ -73,11 +67,15 @@
                     },
                     userid:{
                         observer:'_useridChanged'
-                    }
+                    },
+                    userList:Array
                 }
             }
             ready(){
                 super.ready();
+                this.$.ajaxInit.url = "/userInfo"
+                this.$.ajaxInit.method = "GET"
+                this.$.ajaxInit.generateRequest();
                 const navbar = this.$.navbar;
                 navbar.addEventListener('toggleD', function(evt){
                     this._toggleDrawer();
@@ -91,16 +89,28 @@
                 //console.log(evt.detail.response);
                 this._buildOptions(evt.detail.response);
             }
+            initUserList(evt){
+                this.userList = evt.detail.response;
+                this.set('selectedUser', this.userList[0]);
+                
+            }
             _useridChanged(val)
             {
-                console.log("Id's of selected user changed for ", val);
-                
+                var list = this.userList;
+                //console.log("Id's of selected user changed for ", val);
+                list.forEach(user => {
+                    if(user.id_user == val){
+                        //console.log('New user selected : ', user.prenom," ", user.nom);
+                        this.set('selectedUser', user);
+                        this._toggleDrawer();
+                    }
+                });
             }
             _buildOptions(data){
                 // console.log("data :",data);
                 var tab = [];
                 data.forEach(element => {
-                    console.log(element);
+                    //console.log(element);
                     var name = element.prenom+" "+ element.nom;
                     tab.push({
                         key: element.id_user,

@@ -12,15 +12,15 @@
         <div class="flex flex--col">
             <div class="flex flex--row flex__item">
                 <div class="flex__item info infokey">Nom :</div>
-                <div class="flex__item info infoval">Phillipe </div>
+                <div class="flex__item info infoval">{{selectedUser.nom}}</div>
             </div>
             <div class="flex flex--row flex__item">
                 <div class="flex__item info infokey">Prenom :</div>
-                <div class="flex__item info infoval">Magique</div>
+                <div class="flex__item info infoval">{{selectedUser.prenom}}</div>
             </div>
             <div class="flex flex--row flex__item">
-                <div class="flex__item info infokey">Ages :</div>
-                <div class="flex__item info infoval">73</div>
+                <div class="flex__item info infokey">Age :</div>
+                <div class="flex__item info infoval">{{selectedUser.age}}</div>
             </div>
         </div>
         <iron-ajax id='ajaxEl' content-type='application/json' on-response='handleResponse'></iron-ajax>
@@ -32,23 +32,28 @@
             }
             static get properties() {
                 return {
-                    
+                    selectedUser:{
+                        type:Object,
+                        observer:'_selectedUserChanged'
+                    }
                 }
             }
             ready(){
                 super.ready()
-                this._getUserInfo();
                 
             }
             handleResponse(evt){
-                //console.log(evt.detail.response);
-                
             }
-            _getUserInfo()
+            _getUserInfo(id)
             {
-                this.$.ajaxEl.url = "/userInfo/1";
+                this.$.ajaxEl.url = "/userInfo/"+id;
                 this.$.ajaxEl.method = "GET";
                 this.$.ajaxEl.generateRequest();
+            }
+            _selectedUserChanged(val)
+            {
+                //console.log('Selected user changed from info-user');
+                
             }
         }
         window.customElements.define(InfoUser.is, InfoUser);
