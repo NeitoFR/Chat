@@ -1,0 +1,90 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel='import' href='./shared-styles.html'>
+<dom-module id="pil-view">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block
+            }
+            .day{
+                height: 50px;
+                width: 50px;
+                border-radius: 25%;
+                margin: 2px;
+                border: 1px solid grey;
+                cursor: pointer;
+            }
+            .red{
+                box-shadow: inset 0px 0px 45px 2px #cb0000;
+            }
+            .green{
+                box-shadow: inset 0px 0px 45px 2px #17c500;
+            }
+            .gray
+            {
+                box-shadow: inset 0px 0px 45px 2px #4e4e4e;                
+            }
+        </style>
+            <div style="margin-bottom: 5px">Pilulier de : Bernard</div>
+        <div class="flex flex--row">
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle flex_item ">L</div>
+                <div class="flex__item--top day red"></div>
+            </div>
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle ">M</div>
+                <div class="flex__item--top day gray"></div>
+            </div>
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle ">M</div>
+                <div class="flex__item--top day green"></div>
+            </div>
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle ">J</div>
+                <div class="flex__item--top day gray"></div>
+            </div>
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle ">V</div>
+                <div class="flex__item--top day gray"></div>
+            </div>
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle ">S</div>
+                <div class="flex__item--top day gray"></div>
+            </div>
+            <div class="flex__item--top flex flex--col">
+                <div class="flex__item--middle ">D</div>
+                <div class="flex__item--top day gray"></div>
+            </div>
+        </div>
+        
+        
+        <iron-ajax id="ajaxEl" content-type="application/json" on-response="handleResponse"></iron-ajax>
+        
+    </template>
+    
+    <script>
+        class PilView extends Polymer.Element {
+            static get is() {
+                return 'pil-view';
+            }
+            static get properties() {
+                return {
+                    
+                };
+            }
+            ready() {
+                super.ready();
+            }
+            _getData()
+            {
+                this.$.ajaxEl.url = "";
+                this.$.ajaxEl.method = "";
+                this.$.ajaxEl.generateRequest();s
+            }
+            handleResponse(evt){
+                console.log(evt.detail.response);
+            }
+        }
+        window.customElements.define(PilView.is, PilView);
+    </script>
+</dom-module>

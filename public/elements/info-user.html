@@ -1,0 +1,56 @@
+<link rel='import' href='../bower_components/polymer/polymer-element.html'>
+<dom-module id='info-user'>
+    <template>
+        <style include='shared-styles'>
+            .info{
+                padding: 10px;
+            }
+            .infokey{
+                font-weight: bold;
+            }
+        </style>
+        <div class="flex flex--col">
+            <div class="flex flex--row flex__item">
+                <div class="flex__item info infokey">Nom :</div>
+                <div class="flex__item info infoval">Phillipe </div>
+            </div>
+            <div class="flex flex--row flex__item">
+                <div class="flex__item info infokey">Prenom :</div>
+                <div class="flex__item info infoval">Magique</div>
+            </div>
+            <div class="flex flex--row flex__item">
+                <div class="flex__item info infokey">Ages :</div>
+                <div class="flex__item info infoval">73</div>
+            </div>
+        </div>
+        <iron-ajax id='ajaxEl' content-type='application/json' on-response='handleResponse'></iron-ajax>
+    </template>
+    <script>
+        class InfoUser extends Polymer.Element {
+            static get is() {
+                return 'info-user'
+            }
+            static get properties() {
+                return {
+                    
+                }
+            }
+            ready(){
+                super.ready()
+                this._getUserInfo();
+                
+            }
+            handleResponse(evt){
+                //console.log(evt.detail.response);
+                
+            }
+            _getUserInfo()
+            {
+                this.$.ajaxEl.url = "/userInfo/1";
+                this.$.ajaxEl.method = "GET";
+                this.$.ajaxEl.generateRequest();
+            }
+        }
+        window.customElements.define(InfoUser.is, InfoUser);
+    </script>
+</dom-module>

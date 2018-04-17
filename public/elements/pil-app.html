@@ -1,18 +1,119 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel='import' href='../bower_components/iron-ajax/iron-ajax.html'>
+<link rel='import' href='../bower_components/app-layout/app-drawer/app-drawer.html'>
+<link rel='import' href='../bower_components/iron-selector/iron-selector.html'>    
+<link rel='import' href='./shared-styles.html'>
 <!-- Views -->
 <link rel='import' href='nav-bar.html'>
+<link rel='import' href='pil-view.html'>
+<link rel='import' href='./info-user.html'>
 
 <dom-module id='pil-app'>
     <template>
-        <style>
-        
+        <style include="shared-styles">
+            .card{
+                margin: 10px 10px 0px 10px;
+            }
+            #drawer-head
+            {
+                font-size: 18px;
+                text-align: center;
+                border-bottom: 1px solid #CCC;
+                padding-bottom: 15px;
+            }
+            .user{
+                padding: 15px;
+            }
+            .user:hover{
+                background-color: rgb(216, 216, 216);
+            }
         </style>
-        <nav-bar></nav-bar>
+        
+        <nav-bar id='navbar'></nav-bar>
+        
+        <app-drawer id='drawer'>
+            <p id="drawer-head">Liste des utilisateurs</p>
+            <iron-selector selected="{{userid}}" attr-for-selected="id-user">
+                <template is="dom-repeat" items="{{users}}" as="user">
+                    <p class="user" id-user={{user.key}}>{{user.val}}</p>
+                </template>
+            </iron-selector>
+        </app-drawer>
+        <div class="flex flex--col">
+            <div class="flex flex--row flex__item">
+                <div class="flex__item">
+                    <div class="card">
+                        <pil-view selected-user={{selectedUser}}></pil-view>
+                    </div>
+                </div>
+                <div class="flex__item">
+                    <div class="card">
+                        <info-user></info-user>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex--row flex__item">
+                <div class="flex__item">
+                    <div class="card">
+                        Info case
+                    </div>
+                </div>
+                <div class="flex__item"></div>
+            </div>
+        </div>
+        <iron-ajax id='ajaxEl' content-type='application/json' on-response='handleResponse'></iron-ajax>
     </template>
     <script>
         class PilApp extends Polymer.Element {
             static get is() { return 'pil-app' }
-           
+            static get properties() {
+                return {
+                    selectedUser:{
+                        type: Object
+                    },
+                    userid:{
+                        observer:'_useridChanged'
+                    }
+                }
+            }
+            ready(){
+                super.ready();
+                const navbar = this.$.navbar;
+                navbar.addEventListener('toggleD', function(evt){
+                    this._toggleDrawer();
+                }.bind(this));
+            }
+            _toggleDrawer(){
+                this.$.drawer.toggle();
+                this._getUsers();
+            }
+            handleResponse(evt){
+                //console.log(evt.detail.response);
+                this._buildOptions(evt.detail.response);
+            }
+            _useridChanged(val)
+            {
+                console.log("Id's of selected user changed for ", val);
+                
+            }
+            _buildOptions(data){
+                // console.log("data :",data);
+                var tab = [];
+                data.forEach(element => {
+                    console.log(element);
+                    var name = element.prenom+" "+ element.nom;
+                    tab.push({
+                        key: element.id_user,
+                        val: name
+                    })
+                });
+                this.users = tab;
+            }
+            _getUsers(){
+                this.$.ajaxEl.url = "/userInfo"
+                this.$.ajaxEl.method = "GET"
+                this.$.ajaxEl.generateRequest();
+            }
         }
         window.customElements.define(PilApp.is, PilApp);
     </script>

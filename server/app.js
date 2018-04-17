@@ -5,7 +5,7 @@ bodyParser = require('body-parser'),
 request = require('request'),
 path = require('path');
 //Populate process.env variable
-const _port = 3000;
+require('dotenv').config();
 //Server
 var app = express();
 
@@ -22,6 +22,9 @@ app.get('/', function (req, res){
     //console.log(req.url);
 });
 
-app.listen(_port, function (){
-    console.log('Server listening on  : '+_port);
+//SQL API Routing
+app.use(require('./sql_routes/sql-routes'));
+
+app.listen(process.env.APP_PORT, function (){
+    console.log('Server listening on  : '+process.env.APP_PORT);
 });
