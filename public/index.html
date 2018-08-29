@@ -24,11 +24,15 @@
   <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
   
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Load your application shell -->
-  <link rel="import" href="./elements/pil-app.html">
-  
+  <link rel="import" href="./elements/seed-app/seed-app.html">
+  <!-- jQuery -->
   <!-- Add any global styles for body, document, etc. -->
   <style>
+    html {
+      height: 100%
+    }
     body {
       margin: 0;
       font-family: 'Roboto', 'Noto', sans-serif;
@@ -38,6 +42,6 @@
   </style>
 </head>
 <body>
-  <pil-app></pil-app>
+  <seed-app></seed-app>
 </body>
 </html>

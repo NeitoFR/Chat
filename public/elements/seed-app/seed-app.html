@@ -1,0 +1,69 @@
+<link rel='import' href='../../bower_components/polymer/polymer-element.html'>
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../nav-bar/nav-bar.html">
+
+<dom-module id='seed-app'>
+    <template>
+        <style include='shared-styles'>
+            .chat {
+                padding: 5px;
+                border: 1px solid black;
+                width: 70%;
+                height: 100%
+            }
+
+            .list {
+                padding: 5px;
+                border: 1px solid black;
+                width: 30%;
+                height: 100%;
+            }
+        </style>
+        <div class="flex flex--col wrapper">
+            <div class="flex__item">
+                <nav-bar bar-title="Chat Training"></nav-bar>
+            </div>
+            <div class="flex__item flex flex--row">
+                <div class="flex__item--top chat">
+                    <button on-click='_test'>add people</button>
+                    <button on-click='_test2'>log peoples</button>
+                </div>
+                <div class="flex__item--top list">
+                    <ul>
+                        <template  id="namelist" is="dom-repeat" items={{peoples}}>
+                            <li>{{item.test}}</li>
+                        </template>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        class SeedApp extends Polymer.Element {
+            static get is() {
+                return 'seed-app'
+            }
+            static get properties() {
+                return {
+                    peoples: {
+                        type: Array,
+                        value: []
+                    }
+                }
+            }
+            ready() {
+                super.ready()
+            }
+            _test2() {
+                console.log(this.peoples);
+
+            }
+            _test() {
+                this.push('peoples', { test: "test" });
+                this.$.namelist.render();
+            }
+        }
+        window.customElements.define(SeedApp.is, SeedApp);
+    </script>
+</dom-module>
