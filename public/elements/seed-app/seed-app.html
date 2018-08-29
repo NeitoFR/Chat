@@ -1,6 +1,7 @@
 <link rel='import' href='../../bower_components/polymer/polymer-element.html'>
 <link rel="import" href="../shared-styles.html">
 <link rel="import" href="../nav-bar/nav-bar.html">
+<link rel="import" href="../../bower_components/web-socket/web-socket.html">
 
 <dom-module id='seed-app'>
     <template>
@@ -27,17 +28,18 @@
                 <div class="flex__item--top chat">
                     <button on-click='_test'>add people</button>
                     <button on-click='_test2'>log peoples</button>
+                    <p>{{lastSocketText}}</p>
                 </div>
                 <div class="flex__item--top list">
                     <ul>
                         <template  id="namelist" is="dom-repeat" items={{peoples}}>
                             <li>{{item.test}}</li>
                         </template>
-
                     </ul>
                 </div>
             </div>
         </div>
+        <!-- <web-socket id="ws" auto url="ws://localhost:3000" state="{{state}}" last-response="{{response}}" last-error="{{error}}" verbose></web-socket> -->
     </template>
     <script>
         class SeedApp extends Polymer.Element {
@@ -49,19 +51,36 @@
                     peoples: {
                         type: Array,
                         value: []
-                    }
-                }
+                    },
+                    state: {
+                        observer: '_webSocketStateChanged'
+                    },
+                    response: {
+                        observer: '_webSocketResponseChanged'
+                    },
+                    error: {
+                        observer: '_webSocketErrorChanged'
+                    },                }
             }
             ready() {
                 super.ready()
             }
             _test2() {
                 console.log(this.peoples);
-
+                this.$.ws.send({message : 'Bonjour'});
             }
             _test() {
                 this.push('peoples', { test: "test" });
-                this.$.namelist.render();
+                // this.$.namelist.render();
+            }
+            _webSocketStateChanged(val){
+                console.log(val);
+            }
+            _webSocketResponseChanged(val){
+                console.log(val);
+            }
+            _webSocketErrorChanged(val){
+                console.log(val);
             }
         }
         window.customElements.define(SeedApp.is, SeedApp);
