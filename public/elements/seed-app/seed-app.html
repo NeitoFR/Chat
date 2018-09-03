@@ -32,14 +32,13 @@
                 </div>
                 <div class="flex__item--top list">
                     <ul>
-                        <template  id="namelist" is="dom-repeat" items={{peoples}}>
+                        <template id="namelist" is="dom-repeat" items={{peoples}}>
                             <li>{{item.test}}</li>
                         </template>
                     </ul>
                 </div>
             </div>
         </div>
-        <!-- <web-socket id="ws" auto url="ws://localhost:3000" state="{{state}}" last-response="{{response}}" last-error="{{error}}" verbose></web-socket> -->
     </template>
     <script>
         class SeedApp extends Polymer.Element {
@@ -52,34 +51,36 @@
                         type: Array,
                         value: []
                     },
-                    state: {
-                        observer: '_webSocketStateChanged'
-                    },
-                    response: {
-                        observer: '_webSocketResponseChanged'
-                    },
-                    error: {
-                        observer: '_webSocketErrorChanged'
-                    },                }
+                    // state: {
+                    //     observer: '_webSocketStateChanged'
+                    // },
+                    // response: {
+                    //     observer: '_webSocketResponseChanged'
+                    // },
+                    // error: {
+                    //     observer: '_webSocketErrorChanged'
+                    // },
+                }
             }
             ready() {
-                super.ready()
+                super.ready();
+                
             }
             _test2() {
                 console.log(this.peoples);
-                this.$.ws.send({message : 'Bonjour'});
+                this.$.ws.send({ message: 'Bonjour' });
             }
             _test() {
                 this.push('peoples', { test: "test" });
                 // this.$.namelist.render();
             }
-            _webSocketStateChanged(val){
+            _webSocketStateChanged(val) {
                 console.log(val);
             }
-            _webSocketResponseChanged(val){
+            _webSocketResponseChanged(val) {
                 console.log(val);
             }
-            _webSocketErrorChanged(val){
+            _webSocketErrorChanged(val) {
                 console.log(val);
             }
         }

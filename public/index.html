@@ -6,7 +6,7 @@
   <meta name="generator" content="Polymer Starter Kit">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-  <title>Projet Scientifique</title>
+  <title>Chat NodeJS</title>
   <base href="/">
 
   <link rel="icon" href="./ressources/images/favicon.ico">
@@ -27,7 +27,7 @@
   <script src="./bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Load your application shell -->
   <link rel="import" href="./elements/seed-app/seed-app.html">
-  <!-- jQuery -->
+  <script src="./ressources/lib/socket.io.js"></script>
   <!-- Add any global styles for body, document, etc. -->
   <style>
     
@@ -42,10 +42,9 @@
 
 <body>
   <seed-app></seed-app>
-  <script src="./ressources/lib/socket.io.js"></script>
-  <script>
-    var socket = io.connect('http://localhost:3000');
-  </script>
+  <!-- <script>
+    // var socket = io.connect('http://localhost:3000');
+  </script> -->
 </body>
 
 </html>
