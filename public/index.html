@@ -3,34 +3,10 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Polymer Starter Kit">
-  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-
   <title>Chat NodeJS</title>
   <base href="/">
-
   <link rel="icon" href="./ressources/images/favicon.ico">
-  <script>window.Polymer = { rootPath: '/' };
-    // Load and register pre-caching Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('service-worker.js', {
-          scope: Polymer.rootPath,
-        });
-      });
-    }
-
-  </script>
-  <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-  <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-
-  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
-  <!-- Load your application shell -->
-  <link rel="import" href="./elements/seed-app/seed-app.html">
-  <script src="./ressources/lib/socket.io.js"></script>
-  <!-- Add any global styles for body, document, etc. -->
   <style>
-    
     body {
       margin: 0;
       font-family: 'Roboto', 'Noto', sans-serif;
@@ -41,7 +17,8 @@
 </head>
 
 <body>
-  Test
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <script src="./websocket.js"></script>
 </body>
 
 </html>
