@@ -21,16 +21,10 @@
     }
 
   </script>
-  <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
   <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
-  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
-  <!-- Load your application shell -->
   <link rel="import" href="./elements/seed-app/seed-app.html">
-  <!-- jQuery -->
-  <!-- Add any global styles for body, document, etc. -->
   <style>
-    
     body {
       margin: 0;
       font-family: 'Roboto', 'Noto', sans-serif;
@@ -42,10 +36,6 @@
 
 <body>
   <seed-app></seed-app>
-  <script src="./ressources/lib/socket.io.js"></script>
-  <script>
-    var socket = io.connect('http://localhost:3000');
-  </script>
 </body>
 
 </html>

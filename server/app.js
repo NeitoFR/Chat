@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-    console.log('Un client est connecté !', socket);
+    console.log('Un client est connecté !');
 });
 
 server.listen(process.env.APP_PORT, function () {

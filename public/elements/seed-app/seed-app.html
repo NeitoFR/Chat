@@ -1,46 +1,32 @@
 <link rel='import' href='../../bower_components/polymer/polymer-element.html'>
 <link rel="import" href="../shared-styles.html">
 <link rel="import" href="../nav-bar/nav-bar.html">
-<link rel="import" href="../../bower_components/web-socket/web-socket.html">
-
+<link rel="import" href="../user-list/user-list.html">
 <dom-module id='seed-app'>
     <template>
         <style include='shared-styles'>
-            .chat {
-                padding: 5px;
-                border: 1px solid black;
-                width: 70%;
-                height: 100%
-            }
-
-            .list {
-                padding: 5px;
-                border: 1px solid black;
-                width: 30%;
-                height: 100%;
-            }
         </style>
+        
         <div class="flex flex--col wrapper">
             <div class="flex__item">
                 <nav-bar bar-title="Chat Training"></nav-bar>
             </div>
             <div class="flex__item flex flex--row">
-                <div class="flex__item--top chat">
-                    <button on-click='_test'>add people</button>
-                    <button on-click='_test2'>log peoples</button>
-                    <p>{{lastSocketText}}</p>
-                </div>
-                <div class="flex__item--top list">
+                <div class="flex__item">
+                    <button on-click='_test'>test</button>{{socket.username}}
                     <ul>
-                        <template  id="namelist" is="dom-repeat" items={{peoples}}>
-                            <li>{{item.test}}</li>
+                        <template is="dom-repeat" items="{{userList}}">
+                            <li>{{item.username}}</li>
                         </template>
                     </ul>
                 </div>
+                <div class="flex__item">
+                    <user-list user-list={{userList}}></user-list>
+                </div>
             </div>
-        </div>
-        <!-- <web-socket id="ws" auto url="ws://localhost:3000" state="{{state}}" last-response="{{response}}" last-error="{{error}}" verbose></web-socket> -->
+
     </template>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script>
         class SeedApp extends Polymer.Element {
             static get is() {
@@ -48,39 +34,20 @@
             }
             static get properties() {
                 return {
-                    peoples: {
+                    userList: {
                         type: Array,
-                        value: []
-                    },
-                    state: {
-                        observer: '_webSocketStateChanged'
-                    },
-                    response: {
-                        observer: '_webSocketResponseChanged'
-                    },
-                    error: {
-                        observer: '_webSocketErrorChanged'
-                    },                }
+                        value: [],
+                        notify: true
+                    }
+                }
             }
             ready() {
-                super.ready()
-            }
-            _test2() {
-                console.log(this.peoples);
-                this.$.ws.send({message : 'Bonjour'});
+                super.ready();
+                io.connect('http://localhost:3000');
             }
             _test() {
-                this.push('peoples', { test: "test" });
-                // this.$.namelist.render();
-            }
-            _webSocketStateChanged(val){
-                console.log(val);
-            }
-            _webSocketResponseChanged(val){
-                console.log(val);
-            }
-            _webSocketErrorChanged(val){
-                console.log(val);
+                this.push('userList', { username: 'NeitoFR' });
+                console.log(this.userList);
             }
         }
         window.customElements.define(SeedApp.is, SeedApp);
