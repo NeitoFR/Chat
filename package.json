@@ -1,10 +1,10 @@
 {
   "name": "ark",
   "version": "1.0.0",
-  "description": "Projet Fil Rouge - Les n Fantastiques",
+  "description": "Chat with socket io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NeitoFR/Ark.git"
+    "url": "https://github.com/NeitoFR/Chat.git"
   },
   "main": "index.js",
   "scripts": {

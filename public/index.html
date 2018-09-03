@@ -3,13 +3,14 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Polymer Starter Kit">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
   <title>Chat NodeJS</title>
   <base href="/">
 
   <link rel="icon" href="./ressources/images/favicon.ico">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script>window.Polymer = { rootPath: '/' };
     // Load and register pre-caching Service Worker
     if ('serviceWorker' in navigator) {
@@ -26,7 +27,6 @@
 
   <script src="./bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Load your application shell -->
-  <link rel="import" href="./elements/seed-app/seed-app.html">
   <script src="./ressources/lib/socket.io.js"></script>
   <!-- Add any global styles for body, document, etc. -->
   <style>
@@ -41,10 +41,51 @@
 </head>
 
 <body>
-  <seed-app></seed-app>
   <!-- <script>
     // var socket = io.connect('http://localhost:3000');
   </script> -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-9">
+        Chat
+      </div>
+      <div class="col-3">
+        Connecting people
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
