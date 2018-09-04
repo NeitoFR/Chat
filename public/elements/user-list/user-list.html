@@ -1,18 +1,40 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-
 <dom-module id="user-list">
     <template>
         <style>
             :host {
                 display: block
             }
+
+            ul {
+                margin-bottom: 14px;
+                list-style: none;
+                float: right;
+                margin-right: 5%;
+            }
+
+            li {
+                height: ;
+            }
+
+            li:hover {
+                background-color: var(--apc);
+            }
+
+            .wrapper {
+                height: 100%;
+                width: 100%;
+            }
         </style>
-    
-        <ul>
-            <template is="dom-repeat" items="{{userList}}">
-                <li>{{item.username}}</li>
-            </template>
-        </ul>
+        <div class="wrapper flex flex--col">
+            <ul class="flex__item--bottom">
+                <span class="">Connected users</span>
+                <template is="dom-repeat" items="{{userList}}">
+                    <li>{{item.username}}</li>
+                </template>
+            </ul>
+
+        </div>
     </template>
 
     <script>
@@ -38,9 +60,9 @@
             _test() {
                 console.log(this.userList);
             }
-            _valChanged(al){
+            _valChanged(al) {
                 console.log(al);
-                
+
             }
         }
         window.customElements.define(UserList.is, UserList);
