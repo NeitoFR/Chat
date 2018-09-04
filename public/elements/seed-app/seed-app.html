@@ -3,6 +3,8 @@
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+
 <!-- Shared CSS -->
 <link rel="import" href="../shared-styles.html">
 <!-- Custom Elements -->
@@ -27,7 +29,6 @@
                 border: 1px solid black;
             }
         </style>
-        <script src="../../bower_components/uuid/uuid.js"></script>
         <div class="flex flex--col wrapper">
             <div class="flex__item">
                 <nav-bar bar-title="{{barTitle}}"></nav-bar>
@@ -39,7 +40,7 @@
                         <paper-button raised on-tap="_Disconnect" class="flex__item--top">Disconnect</paper-button>
                         <paper-button raised on-tap="_test" class="flex__item--top">Test</paper-button>
                     </div>
-                    <chat-element class="flex__item chat"></chat-element>
+                    <chat-element class="flex__item chat" id='chatElement'></chat-element>
                 </div>
                 <user-list user-list={{userList}} class="flex__item--top list"></user-list>
             </div>
@@ -85,9 +86,12 @@
                 // this._Connect('NeitoFR');
                 this.$.connectModal.addEventListener('username', function (evt) {
                     this._Connect(evt.detail.username);
-
                 }.bind(this));
-                console.log(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
+                this.$.chatElement.addEventListener('new-message', function(evt){
+                    console.log(evt.detail);
+                    this._sendMessage(evt.detail.message);
+                }.bind(this));
+                // console.log(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
             }
             _openConnectModal() { this.modalConnectTrigger = !this.modalConnectTrigger; }
             _Connect(uname) {
@@ -102,6 +106,13 @@
                     console.log(message);
                     this.set('userList', message);
                 }.bind(this));
+            }
+            _sendMessage(message){
+                var obj = {
+                    username : this.socket.username,
+                    message : message,
+                    timestamp : '11'
+                }
             }
             _test() {
                 console.log(this.socket);

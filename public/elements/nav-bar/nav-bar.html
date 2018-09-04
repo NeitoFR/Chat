@@ -27,7 +27,6 @@
         </style>
         <ul>
             <li class="right">{{barTitle}}</li>
-            <!-- <li class="left button" on-click='_toggleDrawer'>Choisir utilisateur</li> -->
         </ul>
     </template>
     <script>
@@ -42,7 +41,6 @@
             }
             ready(){
                 super.ready();
-                // this.dispatchEvent(new CustomEvent('mission', {detail : {project_id: evt.detail.project_id}}));
             }         
         }
         window.customElements.define(NavBar.is, NavBar);
