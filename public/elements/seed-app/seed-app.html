@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <modal-connect trigger={{modalConnectTrigger}}></modal-connect>
+            <modal-connect trigger={{modalConnectTrigger}} username={{username}}></modal-connect>
     </template>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script>
@@ -50,6 +50,10 @@
                     socket: {
                         type: Object,
                         value: {}
+                    },
+                    username: {
+                        type: String,
+                        value: ''
                     }
                 }
             }

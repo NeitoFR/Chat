@@ -75,6 +75,10 @@
                         <iron-icon icon="icons:close"></iron-icon>
                     </li>
                 </ul>
+                <div class="content flex__item flex flex--row">
+                    <paper-input label="Username..." always-float-label value="{{username_tmp::input}}"></paper-input>
+                    <paper-button raised on-tap="_setUsername">test</paper-button>
+                </div>
             </div>
         </div>
 
@@ -90,11 +94,18 @@
                     trigger: {
                         type: Boolean,
                         observer: '_toggleModal'
+                    },
+                    username: {
+                        type: String
                     }
                 };
             }
             ready() {
                 super.ready();
+            }
+            _setUsername() {
+                this.set('username', this.username_tmp);
+                this._toggleModal();
             }
             _toggleModal() {
                 this.shadowRoot.querySelector('#wrapper').style.display == 'none' ? this.shadowRoot.querySelector('#wrapper').style.display = "block" : this.shadowRoot.querySelector('#wrapper').style.display = "none";

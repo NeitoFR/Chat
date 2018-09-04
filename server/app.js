@@ -20,6 +20,9 @@ app.get('/', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
+    socket.on('username', function (message) {
+        console.log('His nickname : id' + message.username);
+    });
 });
 
 server.listen(process.env.APP_PORT, function () {
