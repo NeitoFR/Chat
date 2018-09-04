@@ -12,6 +12,14 @@
 <dom-module id='seed-app'>
     <template>
         <style include='shared-styles'>
+            .chat {
+                border: 1px solid black;
+            }
+
+            .list {
+                border: 1px solid black;
+                width: 25%;
+            }
         </style>
 
         <div class="flex flex--col wrapper">
@@ -19,14 +27,12 @@
                 <nav-bar bar-title="{{barTitle}}"></nav-bar>
             </div>
             <div class="flex__item flex flex--row">
-                <div class="flex__item">
+                <div class="flex__item chat">
                     <paper-button raised on-tap="_openConnectModal" class="flex__item">Connect</paper-button>
                     <paper-button raised on-tap="_Disconnect" class="flex__item">Disconnect</paper-button>
                     <paper-button raised on-tap="_test" class="flex__item">Test</paper-button>
                 </div>
-                <div class="flex__item">
-                    <user-list user-list={{userList}}></user-list>
-                </div>
+                <user-list user-list={{userList}} class="flex__item--top list"></user-list> 
             </div>
 
             <modal-connect id='connectModal' trigger={{modalConnectTrigger}}></modal-connect>
@@ -82,8 +88,8 @@
                 this.set('barTitle', 'Welcome, ' + this.socket.username);
                 this._setListeners();
             }
-            _setListeners(){
-                this.socket.on('userlist', function(message){
+            _setListeners() {
+                this.socket.on('userlist', function (message) {
                     console.log(message);
                     this.set('userList', message);
                 }.bind(this));

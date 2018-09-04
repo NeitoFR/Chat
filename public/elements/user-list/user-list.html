@@ -6,29 +6,39 @@
                 display: block
             }
 
-            ul {
-                margin-bottom: 14px;
-                list-style: none;
-                float: right;
-                margin-right: 5%;
-            }
-
-            /* li {
-                height: ;
-            } */
-
-            li:hover {
-                background-color: var(--apc);
-            }
-
             .wrapper {
                 height: 100%;
                 width: 100%;
             }
+
+            ul li {
+                padding: 8px;
+                padding-left: 45px;
+                font-size: 1.2rem;
+                width: 100%;
+                /* background-color: #CCC; */
+                /* text-align: right; */
+            }
+            ul li:hover{
+                background-color: rgba(0, 0, 0, 0.082)
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .list-head {
+                font-size: 18px;
+                text-align: center;
+                border-bottom: 2px solid #777;
+                padding: 15px;
+                width: 80%;
+                margin: auto;
+            }
         </style>
         <div class="wrapper flex flex--col">
+            <div class="list-head flex__item">Connected users</div>
             <ul class="flex__item--bottom">
-                <span class="">Connected users</span>
                 <template is="dom-repeat" items="{{userList}}">
                     <li>{{item.username}}</li>
                 </template>
