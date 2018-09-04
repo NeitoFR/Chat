@@ -9,10 +9,11 @@
 <link rel="import" href="../nav-bar/nav-bar.html">
 <link rel="import" href="../user-list/user-list.html">
 <link rel="import" href="../modal-connect/modal-connect.html">
+<link rel="import" href="../chat-element/chat-element.html">
 <dom-module id='seed-app'>
     <template>
         <style include='shared-styles'>
-            .chat {
+            .chat-wrapper {
                 border: 1px solid black;
             }
 
@@ -20,19 +21,27 @@
                 border: 1px solid black;
                 width: 25%;
             }
-        </style>
 
+            .chat {
+                width: 100%;
+                border: 1px solid black;
+            }
+        </style>
+        <script src="../../bower_components/uuid/uuid.js"></script>
         <div class="flex flex--col wrapper">
             <div class="flex__item">
                 <nav-bar bar-title="{{barTitle}}"></nav-bar>
             </div>
             <div class="flex__item flex flex--row">
-                <div class="flex__item chat">
-                    <paper-button raised on-tap="_openConnectModal" class="flex__item">Connect</paper-button>
-                    <paper-button raised on-tap="_Disconnect" class="flex__item">Disconnect</paper-button>
-                    <paper-button raised on-tap="_test" class="flex__item">Test</paper-button>
+                <div class="flex__item chat-wrapper flex flex--col">
+                    <div class="flex__item flex flex--row">
+                        <paper-button raised on-tap="_openConnectModal" class="flex__item--top">Connect</paper-button>
+                        <paper-button raised on-tap="_Disconnect" class="flex__item--top">Disconnect</paper-button>
+                        <paper-button raised on-tap="_test" class="flex__item--top">Test</paper-button>
+                    </div>
+                    <chat-element class="flex__item chat"></chat-element>
                 </div>
-                <user-list user-list={{userList}} class="flex__item--top list"></user-list> 
+                <user-list user-list={{userList}} class="flex__item--top list"></user-list>
             </div>
 
             <modal-connect id='connectModal' trigger={{modalConnectTrigger}}></modal-connect>
@@ -78,9 +87,9 @@
                     this._Connect(evt.detail.username);
 
                 }.bind(this));
+                console.log(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
             }
             _openConnectModal() { this.modalConnectTrigger = !this.modalConnectTrigger; }
-
             _Connect(uname) {
                 this.socket = io.connect('http://10.192.128.191:81');
                 this.set('socket.username', uname);
@@ -95,7 +104,7 @@
                 }.bind(this));
             }
             _test() {
-                console.log(this.socket.username);
+                console.log(this.socket);
             }
         }
         window.customElements.define(SeedApp.is, SeedApp);
