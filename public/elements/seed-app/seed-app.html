@@ -76,7 +76,7 @@
             _openConnectModal() { this.modalConnectTrigger = !this.modalConnectTrigger; }
 
             _Connect(uname) {
-                this.socket = io.connect('http://10.192.128.191:80');
+                this.socket = io.connect('http://10.192.128.191:81');
                 this.set('socket.username', uname);
                 this.socket.emit('username', { username: this.socket.username });
                 this.set('barTitle', 'Welcome, ' + this.socket.username);
