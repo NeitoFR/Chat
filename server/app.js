@@ -16,7 +16,12 @@ var users = [];
 app.use(express.static(path.join(__dirname, '/..', 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+  
 app.get('/', function (req, res) {
     res.sendFile('../public/index.html', { root: __dirname });
 });
@@ -24,17 +29,16 @@ app.get('/', function (req, res) {
 io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
     socket.on('username', function (message) {
-        console.log('His nickname : ' + message.username, message);
         socket.username = message.username;
-        users.push(socket);
-    });
+        users.push({username: socket.username});
+        _sendUserList(users);
+    })
 });
-
-
-var interval = setInterval(function () {
-    io.emit('userlist', users)
-}, 3000)
 
 server.listen(process.env.APP_PORT, function () {
     console.log('Server listening on port : ' + process.env.APP_PORT);
 });
+
+function _sendUserList(array) {
+    io.emit('userlist', array);
+}

@@ -67,17 +67,26 @@
             }
             ready() {
                 super.ready();
+                // this._Connect('NeitoFR');
                 this.$.connectModal.addEventListener('username', function (evt) {
                     this._Connect(evt.detail.username);
 
                 }.bind(this));
             }
             _openConnectModal() { this.modalConnectTrigger = !this.modalConnectTrigger; }
+
             _Connect(uname) {
-                this.socket = io.connect('http://localhost:3000');
+                this.socket = io.connect('http://10.192.128.191:80');
                 this.set('socket.username', uname);
                 this.socket.emit('username', { username: this.socket.username });
-                this.set('barTitle', 'Welcome, ' + this.socket.username);    
+                this.set('barTitle', 'Welcome, ' + this.socket.username);
+                this._setListeners();
+            }
+            _setListeners(){
+                this.socket.on('userlist', function(message){
+                    console.log(message);
+                    this.set('userList', message);
+                }.bind(this));
             }
             _test() {
                 console.log(this.socket.username);
