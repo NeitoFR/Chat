@@ -6,6 +6,7 @@
             :host {
                 display: block
             }
+            
         </style>
     
         <ul>
@@ -25,22 +26,14 @@
                     userList: {
                         type: Array,
                         value: [],
-                        observer: '_valChanged'
                     }
                 };
             }
             ready() {
                 super.ready();
             }
-            _userListChanged(val) {
-                console.log(val);
-            }
             _test() {
                 console.log(this.userList);
-            }
-            _valChanged(al){
-                console.log(al);
-                
             }
         }
         window.customElements.define(UserList.is, UserList);

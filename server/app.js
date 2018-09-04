@@ -24,7 +24,9 @@ app.get('/', function (req, res) {
 io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
     socket.on('username', function (message) {
-        console.log('His nickname : id' + message.username);
+        console.log('His nickname : ' + message.username, message);
+        socket.username = message.username;
+        users.push(socket);
     });
 });
 

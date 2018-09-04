@@ -76,8 +76,8 @@
                     </li>
                 </ul>
                 <div class="content flex__item flex flex--row">
-                    <paper-input label="Username..." always-float-label value="{{username_tmp::input}}"></paper-input>
-                    <paper-button raised on-tap="_setUsername">test</paper-button>
+                    <paper-input label="Username..." always-float-label value="{{usernameTmp}}"></paper-input>
+                    <paper-button raised on-tap="_setnickname">Connect</paper-button>
                 </div>
             </div>
         </div>
@@ -95,23 +95,29 @@
                         type: Boolean,
                         observer: '_toggleModal'
                     },
-                    username: {
-                        type: String
-                    }
+                    usernameTmp: String
                 };
             }
             ready() {
                 super.ready();
             }
-            _setUsername() {
-                this.set('username', this.username_tmp);
-                this._toggleModal();
-            }
+            _setnickname() {
+                // this.set('nickname', this.usernameTmp);
+                if (this.usernameTmp.length > 3) {
+                    this.dispatchEvent(new CustomEvent('username', { detail: { username: this.usernameTmp } }));
+                    this._toggleModal();
+                }
+                else{
+                    console.log('Nickname too short');
+                }
+            }   
             _toggleModal() {
                 this.shadowRoot.querySelector('#wrapper').style.display == 'none' ? this.shadowRoot.querySelector('#wrapper').style.display = "block" : this.shadowRoot.querySelector('#wrapper').style.display = "none";
             }
+            _nicknameChanged(val) {
+                console.log('nickname changed', val);
+            }
         }
-        window.customElements.define(ModalConnect.is, ModalConnect
-        );
+        window.customElements.define(ModalConnect.is, ModalConnect);
     </script>
 </dom-module>
