@@ -27,10 +27,23 @@
             .input {
                 padding: 14px;
             }
+            .username{
+                color:red;
+            }
+            .timestamp{
+                color:blue;
+            }
+            .message{
+                color:yellow;
+            }
+            .log:nth-child(2n){
+            }
         </style>
         <div class="flex flex--col container card">
             <div class="thread">
-
+                <template is="dom-repeat" items="{{messageList}}" as="message">
+                    <p class="log"><span class="username">{{message.username}}</span>(<span class="timestamp">{{message.timestamp}}</span>) : <span class="message">{{message.message}}</span></p>
+                </template>
             </div>
             <div class="input flex flex--row">
                 <!--  on-value-changed='' -->
@@ -49,6 +62,17 @@
                 return {
                     message:{
                         type: String
+                    },
+                    socket: {
+                        type: Object
+                    },
+                    newMessage:{
+                        type: String,
+                        observer: '_newMessageReceived'
+                    },
+                    messageList:{
+                        type: Array,
+                        value: []
                     }
                 };
             }
@@ -58,6 +82,10 @@
             _sendMessage(){
                 this.dispatchEvent(new CustomEvent('new-message', { detail: { message: this.message }}));
                 this.set('message', '');
+            }
+            _newMessageReceived(message){
+                console.log('chat element', message);
+                this.push('messageList', message);
             }
         }
         window.customElements.define(ChatElement.is, ChatElement);

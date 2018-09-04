@@ -40,7 +40,7 @@
                         <paper-button raised on-tap="_Disconnect" class="flex__item--top">Disconnect</paper-button>
                         <paper-button raised on-tap="_test" class="flex__item--top">Test</paper-button>
                     </div>
-                    <chat-element class="flex__item chat" id='chatElement'></chat-element>
+                    <chat-element class="flex__item chat" id='chatElement' new-message={{newMessage}}></chat-element>
                 </div>
                 <user-list user-list={{userList}} class="flex__item--top list"></user-list>
             </div>
@@ -87,15 +87,16 @@
                 this.$.connectModal.addEventListener('username', function (evt) {
                     this._Connect(evt.detail.username);
                 }.bind(this));
-                this.$.chatElement.addEventListener('new-message', function(evt){
-                    console.log(evt.detail);
+                this.$.chatElement.addEventListener('new-message', function (evt) {
+                    // console.log(evt.detail);
                     this._sendMessage(evt.detail.message);
                 }.bind(this));
                 // console.log(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
             }
             _openConnectModal() { this.modalConnectTrigger = !this.modalConnectTrigger; }
             _Connect(uname) {
-                this.socket = io.connect('http://10.192.128.191:81');
+                this.set('socket', io.connect('http://10.192.128.191:81'));
+                // this.socket = io.connect('http://10.192.128.191:81');
                 this.set('socket.username', uname);
                 this.socket.emit('username', { username: this.socket.username });
                 this.set('barTitle', 'Welcome, ' + this.socket.username);
@@ -103,16 +104,23 @@
             }
             _setListeners() {
                 this.socket.on('userlist', function (message) {
-                    console.log(message);
+                    // console.log(message);
                     this.set('userList', message);
                 }.bind(this));
+
+                this.socket.on('message2all', function (message) {
+                    // console.log(message);
+                    this.set('newMessage', message);
+                    
+                }.bind(this))
             }
-            _sendMessage(message){
+            _sendMessage(message) {
                 var obj = {
-                    username : this.socket.username,
-                    message : message,
-                    timestamp : '11'
+                    username: this.socket.username,
+                    message: message,
+                    timestamp: Date.now()
                 }
+                this.socket.emit('new-message', obj);
             }
             _test() {
                 console.log(this.socket);
