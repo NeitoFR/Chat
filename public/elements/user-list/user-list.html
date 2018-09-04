@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="user-list">
+    <template>
+        <style>
+            :host {
+                display: block
+            }
+        </style>
+    
+        <ul>
+            <template is="dom-repeat" items="{{userList}}">
+                <li>{{item.username}}</li>
+            </template>
+        </ul>
+    </template>
+
+    <script>
+        class UserList extends Polymer.Element {
+            static get is() {
+                return 'user-list';
+            }
+            static get properties() {
+                return {
+                    userList: {
+                        type: Array,
+                        value: [],
+                        observer: '_valChanged'
+                    }
+                };
+            }
+            ready() {
+                super.ready();
+            }
+            _userListChanged(val) {
+                console.log(val);
+            }
+            _test() {
+                console.log(this.userList);
+            }
+            _valChanged(al){
+                console.log(al);
+                
+            }
+        }
+        window.customElements.define(UserList.is, UserList);
+    </script>
+</dom-module>

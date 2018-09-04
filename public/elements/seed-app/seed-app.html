@@ -1,0 +1,75 @@
+<link rel='import' href='../../bower_components/polymer/polymer-element.html'>
+<!-- Bower Components -->
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<!-- Shared CSS -->
+<link rel="import" href="../shared-styles.html">
+<!-- Custom Elements -->
+<link rel="import" href="../nav-bar/nav-bar.html">
+<link rel="import" href="../user-list/user-list.html">
+<link rel="import" href="../modal-connect/modal-connect.html">
+<dom-module id='seed-app'>
+    <template>
+        <style include='shared-styles'>
+        </style>
+
+        <div class="flex flex--col wrapper">
+            <div class="flex__item">
+                <nav-bar bar-title="Chat Training"></nav-bar>
+            </div>
+            <div class="flex__item flex flex--row">
+                <div class="flex__item">
+                    <paper-button raised on-tap="_Connect" class="flex__item">Connect</paper-button>
+                    <paper-button raised on-tap="_Disconnect" class="flex__item">Disconnect</paper-button>
+                    <paper-button raised on-tap="_test" class="flex__item">Test</paper-button>
+                </div>
+                <div class="flex__item">
+                    <user-list user-list={{userList}}></user-list>
+                </div>
+            </div>
+
+            <modal-connect trigger={{modalConnectTrigger}} username={{username}}></modal-connect>
+    </template>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script>
+        class SeedApp extends Polymer.Element {
+            static get is() {
+                return 'seed-app'
+            }
+            static get properties() {
+                return {
+                    userList: {
+                        type: Array,
+                        value: [],
+                        notify: true
+                    },
+                    modalConnectTrigger: {
+                        type: Boolean
+                    },
+                    socket: {
+                        type: Object,
+                        value: {}
+                    },
+                    username: {
+                        type: String,
+                        value: ''
+                    }
+                }
+            }
+            ready() {
+                super.ready();
+                this.socket = io.connect('http://localhost:3000');
+                this._toggleModal();
+            }
+            _Connect() {
+                this.modalConnectTrigger = !this.modalConnectTrigger;
+            }
+            _test() {
+                // this.push('userList', { username: 'NeitoFR' });
+                // console.log(this.userList);
+            }
+        }
+        window.customElements.define(SeedApp.is, SeedApp);
+    </script>
+</dom-module>

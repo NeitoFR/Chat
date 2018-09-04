@@ -1,0 +1,50 @@
+<link rel='import' href='../../bower_components/polymer/polymer-element.html'>
+<link rel='import' href='../shared-styles.html'>
+<dom-module id='nav-bar'>
+    <template>
+        <style include='shared-styles'>
+            :host{
+                display: block;
+            }
+            ul{
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                background-color:  var(--apc);
+                overflow: hidden;
+            }
+            li{
+                display: inline;
+                color: rgb(224, 224, 224);
+                padding: 12px 10px;
+            }
+            .button{cursor: pointer;}
+            .button:hover{background-color: #4d569b;}
+            .right{float: right;}
+            .left{float: left;}
+            
+        </style>
+        <ul>
+            <li class="right">{{barTitle}}</li>
+            <!-- <li class="left button" on-click='_toggleDrawer'>Choisir utilisateur</li> -->
+        </ul>
+    </template>
+    <script>
+        class NavBar extends Polymer.Element {
+            static get is() {
+                return 'nav-bar'
+            }
+            static get properties() {
+                return {
+                    barTitle : String
+                }
+            }
+            ready(){
+                super.ready();
+                // this.dispatchEvent(new CustomEvent('mission', {detail : {project_id: evt.detail.project_id}}));
+            }         
+        }
+        window.customElements.define(NavBar.is, NavBar);
+    </script>
+</dom-module>
