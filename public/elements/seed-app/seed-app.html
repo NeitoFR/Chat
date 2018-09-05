@@ -83,22 +83,44 @@
             }
             ready() {
                 super.ready();
-                // this._Connect('NeitoFR');
-                this.$.connectModal.addEventListener('username', function (evt) {
-                    this._Connect(evt.detail.username);
+                this._deleteOldSocket(function () {
+                    this.$.connectModal.addEventListener('username', function (evt) {
+                        this._Connect(evt.detail.username);
+                    }.bind(this));
                 }.bind(this));
+                // this._Connect('NeitoFR');
+
                 this.$.chatElement.addEventListener('new-message', function (evt) {
                     // console.log(evt.detail);
                     this._sendMessage(evt.detail.message);
                 }.bind(this));
                 // console.log(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
             }
-            _openConnectModal() { this.modalConnectTrigger = !this.modalConnectTrigger; }
+            _deleteOldSocket(next) {
+                // console.log(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
+                if (localStorage.getItem('socket_id')) {
+                    var socket_id = localStorage.getItem('socket_id');
+                    this.set('socket', io.connect('http://10.192.128.191:81'));
+                    console.log('COnnecting to remove ols socket', this.socket);
+                    
+                    this.socket.emit('old_socket_remover', socket_id);
+                    localStorage.removeItem('socket_id');
+                } else console.log('no old socket found');
+                next();
+            }
+            _openConnectModal() {
+                this.modalConnectTrigger = !this.modalConnectTrigger;
+            }
             _Connect(uname) {
                 this.set('socket', io.connect('http://10.192.128.191:81'));
-                // this.socket = io.connect('http://10.192.128.191:81');
+                this.socket.on('id', function (message) {
+                    console.log('new id', message);
+                    localStorage.setItem('socket_id', message);
+                });
                 this.set('socket.username', uname);
-                this.socket.emit('username', { username: this.socket.username });
+                this.socket.emit('new_user', {
+                    username: this.socket.username
+                });
                 this.set('barTitle', 'Welcome, ' + this.socket.username);
                 this._setListeners();
             }
@@ -111,8 +133,7 @@
                 this.socket.on('message2all', function (message) {
                     // console.log(message);
                     this.set('newMessage', message);
-                    
-                }.bind(this))
+                }.bind(this));
             }
             _sendMessage(message) {
                 var obj = {
@@ -125,6 +146,7 @@
             _test() {
                 console.log(this.socket);
             }
+
         }
         window.customElements.define(SeedApp.is, SeedApp);
     </script>
